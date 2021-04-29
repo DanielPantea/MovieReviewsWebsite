@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 @Configuration
 @AllArgsConstructor
@@ -25,12 +26,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole(enUserRole.ADMIN.name())
-                .antMatchers("/api/user/**").hasAnyRole(enUserRole.ADMIN.name(), enUserRole.USER.name())
+                //.antMatchers("/api/admin/**").hasRole(enUserRole.ADMIN.name())
+                //.antMatchers("/api/user/**").hasRole(enUserRole.USER.name())
                 .antMatchers("/api/register/", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().sameOrigin()
-                .and().formLogin();
+                .and().httpBasic();
 //        http.authorizeRequests()
 //                .and().csrf().ignoringAntMatchers("/h2-console/**")
 //
