@@ -3,6 +3,7 @@ package com.panteapaliuc.movie.reviews.service;
 import com.panteapaliuc.movie.reviews.model.User;
 import com.panteapaliuc.movie.reviews.repository.UserRepository;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with the username %s not found!", username)));
     }
 
-    public String register(User user)
+    public HttpStatus register(User user)
     {
         boolean usernameTaken = userRepository.findByUsername(user.getUsername()).isPresent();
 
@@ -56,6 +57,6 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        return "Registered!";
+        return HttpStatus.OK;
     }
 }
