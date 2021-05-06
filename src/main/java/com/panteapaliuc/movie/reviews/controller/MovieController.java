@@ -1,14 +1,12 @@
 package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/movies")
 public class MovieController {
@@ -25,7 +23,6 @@ public class MovieController {
         return MOVIES.stream().filter(movie -> movieId.equals(movie.getMovieId())).findFirst()
                 .orElseThrow(() -> new IllegalStateException("Movie " + movieId + " does not exist"));
     }
-
     @GetMapping(path = "all")
     public List<Movie> getMovieList()
     {

@@ -24,11 +24,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors()
+                .and().csrf().disable()
                 .authorizeRequests()
                 //.antMatchers("/api/admin/**").hasRole(enUserRole.ADMIN.name())
                 //.antMatchers("/api/user/**").hasRole(enUserRole.USER.name())
-                .antMatchers("/api/register/", "/h2-console/**").permitAll()
+                .antMatchers("/api/register/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().sameOrigin()
                 .and().httpBasic();
