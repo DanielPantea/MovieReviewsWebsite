@@ -1,6 +1,11 @@
 package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
+import com.panteapaliuc.movie.reviews.service.MovieService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -8,24 +13,45 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/movies")
+@RequestMapping("api/movie")
+@AllArgsConstructor
 public class MovieController {
 
-    private static final List<Movie> MOVIES = Arrays.asList(
-            new Movie(1L, "Avengers"),
-            new Movie(2L, "Star Wars"),
-            new Movie(3L, "Titanic")
-    );
+    private MovieService movieService;
 
-    @GetMapping(path = "{movieId}")
-    public Movie getMovie(@PathVariable("movieId") Long movieId)
+    @GetMapping(path = "/{movieId}")
+    public ResponseEntity<Movie> getMovie(@PathVariable("movieId") Long movieId)
     {
-        return MOVIES.stream().filter(movie -> movieId.equals(movie.getMovieId())).findFirst()
-                .orElseThrow(() -> new IllegalStateException("Movie " + movieId + " does not exist"));
+        Movie movie = movieService.findMovie(movieId);
+        return new ResponseEntity<>(movie, HttpStatus.OK);
     }
-    @GetMapping(path = "all")
-    public List<Movie> getMovieList()
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Movie>> getMovieList()
     {
-        return MOVIES;
+        List<Movie> movies = movieService.findAllMovies();
+        return new ResponseEntity<>(movies, HttpStatus.OK);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie)
+    {
+        Movie newMovie = movieService.addMovie(movie);
+        return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/upd")
+    public ResponseEntity<Movie> updMovie(@RequestBody Movie movie)
+    {
+        Movie updMovie = movieService.updateMovie(movie);
+        return new ResponseEntity<>(updMovie, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/del/{movieId}")
+    public ResponseEntity<?> delMovie(@PathVariable("movieId") Long movieId)
+    {
+        movieService.deleteMovie(movieId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
