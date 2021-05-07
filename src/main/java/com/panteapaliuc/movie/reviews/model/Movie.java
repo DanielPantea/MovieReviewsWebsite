@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +21,25 @@ public class Movie {
 
     @NotBlank(message = "Title is required")
     private String movieTitle;
+
+    private String movieDesc;
+
+    private String posterImgUrl;
+
+    private Date releaseDate;
+
+    private String trailerUrl;
+
+    private Integer lengthMinutes;
+
+    private String movieDirectors;
+
+    private String movieWriters;
+
+    private String movieActors;
+
+    @ManyToMany
+    private List<Tag> tags;
 
     public Movie(String movieTitle) {
         this.movieTitle = movieTitle;
