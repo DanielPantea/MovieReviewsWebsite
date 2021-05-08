@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -40,8 +41,17 @@ public class MovieService {
         movieRepository.deleteMovieByMovieId(movieId);
     }
 
-    public List<Movie> findMoviesByTagId(Long tagId){
-        return movieRepository.findMoviesByMovieTagsTagId(tagId);
+    public List<Movie> findMoviesByTagIdList(List<Long> tagIdList){
+        List<Movie> moviesByTags = movieRepository.findMoviesByMovieTagsTagId(tagIdList.iterator().next());
+        tagIdList.stream().skip(1);
+        for (Long tagId: tagIdList) {
+            moviesByTags = moviesByTags.stream()
+                    .distinct()
+                    .filter(movieRepository.findMoviesByMovieTagsTagId(tagId)::contains)
+                    .collect(Collectors.toList());
+            movieRepository.findMoviesByMovieTagsTagId(tagId);
+        }
+        return moviesByTags;
     }
 
 }

@@ -34,10 +34,10 @@ public class MovieController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/tag/{tagId}")
-    public ResponseEntity<List<Movie>> getMovieListByTag(@PathVariable("tagId") Long tagId)
+    @GetMapping(path = "/tag/{tagIdList}")
+    public ResponseEntity<List<Movie>> getMovieListByTags(@PathVariable("tagIdList") List<Long> tagIdList)
     {
-        List<Movie> movies = movieService.findMoviesByTagId(tagId);
+        List<Movie> movies = movieService.findMoviesByTagIdList(tagIdList);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
