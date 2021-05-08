@@ -43,8 +43,7 @@ public class MovieService {
 
     public List<Movie> findMoviesByTagIdList(List<Long> tagIdList){
         List<Movie> moviesByTags = movieRepository.findMoviesByMovieTagsTagId(tagIdList.iterator().next());
-        tagIdList.stream().skip(1);
-        for (Long tagId: tagIdList) {
+        for (Long tagId: tagIdList.stream().skip(1).collect(Collectors.toList())) {
             moviesByTags = moviesByTags.stream()
                     .distinct()
                     .filter(movieRepository.findMoviesByMovieTagsTagId(tagId)::contains)
