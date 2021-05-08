@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -30,6 +31,13 @@ public class MovieController {
     public ResponseEntity<List<Movie>> getMovieList()
     {
         List<Movie> movies = movieService.findAllMovies();
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/tag/{tagId}")
+    public ResponseEntity<List<Movie>> getMovieListByTag(@PathVariable("tagId") Long tagId)
+    {
+        List<Movie> movies = movieService.findMoviesByTagId(tagId);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 

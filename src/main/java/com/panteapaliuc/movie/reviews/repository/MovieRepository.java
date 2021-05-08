@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     void deleteMovieByMovieId(Long id);
 
     Optional<Movie> findMovieByMovieId(Long movieId);
+
+    List<Movie> findMoviesByMovieTagsTagId(Long tagId);
 }

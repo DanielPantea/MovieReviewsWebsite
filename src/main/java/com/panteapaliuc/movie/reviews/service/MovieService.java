@@ -40,5 +40,8 @@ public class MovieService {
         movieRepository.deleteMovieByMovieId(movieId);
     }
 
+    public List<Movie> findMoviesByTagId(Long tagId){
+        return movieRepository.findMoviesByMovieTagsTagId(tagId);
+    }
 
 }
