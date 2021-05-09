@@ -42,7 +42,7 @@ public class Movie {
     @JoinTable(
             name = "moviesTags",
             joinColumns = @JoinColumn(name = "movieId"),
-            inverseJoinColumns = @JoinColumn(name = "tagId")
+            inverseJoinColumns = @JoinColumn(name = "tagKey")
     )
     private Set<Tag> movieTags;
 

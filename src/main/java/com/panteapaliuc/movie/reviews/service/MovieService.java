@@ -2,6 +2,7 @@ package com.panteapaliuc.movie.reviews.service;
 
 import com.panteapaliuc.movie.reviews.exception.MovieNotFoundException;
 import com.panteapaliuc.movie.reviews.model.Movie;
+import com.panteapaliuc.movie.reviews.model.Tag;
 import com.panteapaliuc.movie.reviews.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,14 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final TagService tagService;
 
     public Movie addMovie(Movie movie)
     {
+        for (Tag tag:movie.getMovieTags()) {
+            if(!tagService.checkTagExists(tag))
+                tagService.addTag(tag);
+        }
          return movieRepository.save(movie);
     }
 
@@ -41,16 +47,17 @@ public class MovieService {
         movieRepository.deleteMovieByMovieId(movieId);
     }
 
-    public List<Movie> findMoviesByTagIdList(List<Long> tagIdList){
-        List<Movie> moviesByTags = movieRepository.findMoviesByMovieTagsTagId(tagIdList.iterator().next());
-        for (Long tagId: tagIdList.stream().skip(1).collect(Collectors.toList())) {
+    public List<Movie> findMoviesByTags(List<String> tagKeys){
+        List<Movie> moviesByTags = movieRepository.findMoviesByMovieTagsTagKey(tagKeys.iterator().next());
+        for (String tagKey: tagKeys.stream().skip(1).collect(Collectors.toList())) {
             moviesByTags = moviesByTags.stream()
                     .distinct()
-                    .filter(movieRepository.findMoviesByMovieTagsTagId(tagId)::contains)
+                    .filter(movieRepository.findMoviesByMovieTagsTagKey(tagKey)::contains)
                     .collect(Collectors.toList());
-            movieRepository.findMoviesByMovieTagsTagId(tagId);
+            movieRepository.findMoviesByMovieTagsTagKey(tagKey);
         }
         return moviesByTags;
     }
+
 
 }

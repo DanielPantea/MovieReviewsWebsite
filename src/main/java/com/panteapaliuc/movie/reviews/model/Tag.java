@@ -1,26 +1,20 @@
 package com.panteapaliuc.movie.reviews.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Tag {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tagId;
+    private String tagKey;
 
-    @NotBlank(message = "Tag name is required")
-    private String tagName;
-
-    public Tag(String tagName) {
-        this.tagName = tagName;
-    }
 }
