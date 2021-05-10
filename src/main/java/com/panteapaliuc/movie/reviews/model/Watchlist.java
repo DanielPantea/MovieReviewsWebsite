@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -17,4 +15,12 @@ public class Watchlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long watchlistId;
+
+    @ManyToMany
+    @JoinTable(
+            name = "watchlistsMovies",
+            joinColumns = @JoinColumn(name = "watclistId"),
+            inverseJoinColumns = @JoinColumn(name = "movieId")
+    )
+    private Set<Movie> movies;
 }
