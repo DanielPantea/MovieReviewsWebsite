@@ -30,9 +30,12 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    //@Email
     @NotEmpty(message = "Email is required")
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "watchlistId")
+    private Watchlist watchlist;
 
     @Enumerated(EnumType.STRING)
     private enUserRole userRole;
@@ -41,10 +44,12 @@ public class User implements UserDetails {
     public User(@NotBlank(message = "Username is required") String username,
                 @NotBlank(message = "Password is required") String password,
                 @Email @NotEmpty(message = "Email is required") String email,
+                Watchlist watchlist,
                 enUserRole userRole) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.watchlist = watchlist;
         this.userRole = userRole;
     }
 

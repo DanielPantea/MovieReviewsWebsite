@@ -1,8 +1,10 @@
 package com.panteapaliuc.movie.reviews.service;
 
 import com.panteapaliuc.movie.reviews.model.User;
+import com.panteapaliuc.movie.reviews.model.Watchlist;
 import com.panteapaliuc.movie.reviews.repository.UserRepository;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,16 +17,19 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final WatchlistService watchlistService;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, WatchlistService watchlistService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.watchlistService = watchlistService;
 
         userRepository.save(
                 new User(
                         "daniel",
                         this.bCryptPasswordEncoder.encode("12345"),
                         "daniel.pantea@student.upt.ro",
+                        watchlistService.addWatchlist(new Watchlist()),
                         enUserRole.ADMIN
                 )
         );
@@ -34,6 +39,7 @@ public class UserService implements UserDetailsService {
                         "filip",
                         this.bCryptPasswordEncoder.encode("12345"),
                         "filip.paliuc@student.upt.ro",
+                        watchlistService.addWatchlist(new Watchlist()),
                         enUserRole.ADMIN
                 )
         );
