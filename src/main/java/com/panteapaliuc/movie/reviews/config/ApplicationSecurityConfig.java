@@ -5,6 +5,7 @@ import com.panteapaliuc.movie.reviews.utility.enUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +31,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/api/admin/**").hasRole(enUserRole.ADMIN.name())
                 //.antMatchers("/api/user/**").hasRole(enUserRole.USER.name())
                 .antMatchers("/api/register/**", "/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/movie/**").permitAll()
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().sameOrigin()
                 .and().httpBasic();
