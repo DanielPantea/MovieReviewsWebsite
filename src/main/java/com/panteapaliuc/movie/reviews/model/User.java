@@ -22,7 +22,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -44,6 +44,14 @@ public class User implements UserDetails, Serializable {
     )
     private List<Movie> watchlist;
 
+    @ManyToMany
+    @JoinTable(
+            name = "diary",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "movieId")
+    )
+    private List<Movie> diary;
+
     @Enumerated(EnumType.STRING)
     private enUserRole userRole;
 
@@ -52,11 +60,13 @@ public class User implements UserDetails, Serializable {
                 @NotBlank(message = "Password is required") String password,
                 @Email @NotEmpty(message = "Email is required") String email,
                 List<Movie> watchlist,
+                List<Movie> diary,
                 enUserRole userRole) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.watchlist = watchlist;
+        this.diary = diary;
         this.userRole = userRole;
     }
 

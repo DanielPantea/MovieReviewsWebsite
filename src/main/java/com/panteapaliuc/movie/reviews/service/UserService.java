@@ -32,6 +32,7 @@ public class UserService implements UserDetailsService {
                         this.bCryptPasswordEncoder.encode("12345"),
                         "daniel.pantea@student.upt.ro",
                         Collections.emptyList(),
+                        Collections.emptyList(),
                         enUserRole.ADMIN
                 )
         );
@@ -41,6 +42,7 @@ public class UserService implements UserDetailsService {
                         "filip",
                         this.bCryptPasswordEncoder.encode("12345"),
                         "filip.paliuc@student.upt.ro",
+                        Collections.emptyList(),
                         Collections.emptyList(),
                         enUserRole.ADMIN
                 )
@@ -73,6 +75,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username).get().getWatchlist();
     }
 
+    public List<Movie> findDiaryByUsername(String username)
+    {
+        return userRepository.findByUsername(username).get().getDiary();
+    }
+
     public void addMovieToWatchlist(String username, Long movieId)
     {
         User user = userRepository.findByUsername(username).get();
@@ -92,6 +99,29 @@ public class UserService implements UserDetailsService {
         if(user.getWatchlist().contains(movie))
         {
             user.getWatchlist().remove(movie);
+            userRepository.save(user);
+        }
+    }
+
+    public void addMovieToDiary(String username, Long movieId)
+    {
+        User user = userRepository.findByUsername(username).get();
+        Movie movie = movieService.findMovie(movieId);
+
+        if(!user.getDiary().contains(movie))
+        {
+            user.getDiary().add(movie);
+            userRepository.save(user);
+        }
+    }
+    public void removeMovieFromDiary(String username, Long movieId)
+    {
+        User user = userRepository.findByUsername(username).get();
+        Movie movie = movieService.findMovie(movieId);
+
+        if(user.getDiary().contains(movie))
+        {
+            user.getDiary().remove(movie);
             userRepository.save(user);
         }
     }
