@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @AllArgsConstructor
 public class RegistrationService  {
@@ -26,6 +28,7 @@ public class RegistrationService  {
                         request.getUsername(),
                         request.getPassword(),
                         request.getEmail(),
+                        Collections.emptyList(),
                         enUserRole.USER
                 )
         );

@@ -13,8 +13,8 @@ public class LoginController {
 
     private LoginService loginService;
 
-    @GetMapping//(path = "/{username}")
-    public HttpStatus login(/*@PathVariable("username") String username*/)
+    @GetMapping
+    public HttpStatus login()
     {
         return loginService.login();
     }

@@ -11,15 +11,18 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -30,9 +33,16 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    //@Email
     @NotEmpty(message = "Email is required")
     private String email;
+
+    @ManyToMany
+    @JoinTable(
+            name = "watchlist",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "movieId")
+    )
+    private List<Movie> watchlist;
 
     @Enumerated(EnumType.STRING)
     private enUserRole userRole;
@@ -41,10 +51,12 @@ public class User implements UserDetails {
     public User(@NotBlank(message = "Username is required") String username,
                 @NotBlank(message = "Password is required") String password,
                 @Email @NotEmpty(message = "Email is required") String email,
+                List<Movie> watchlist,
                 enUserRole userRole) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.watchlist = watchlist;
         this.userRole = userRole;
     }
 
