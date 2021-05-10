@@ -51,4 +51,37 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path = "/diary")
+    public ResponseEntity<List<Movie>> getUserDiary()
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        List<Movie> watchlist = userService.findDiaryByUsername(username);
+
+        return new ResponseEntity<>(watchlist, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/diary/add/{movieId}")
+    public ResponseEntity<?> addToDiary(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.addMovieToDiary(username, movieId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/diary/del/{movieId}")
+    public ResponseEntity<?> delFromDiary(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.removeMovieFromDiary(username, movieId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

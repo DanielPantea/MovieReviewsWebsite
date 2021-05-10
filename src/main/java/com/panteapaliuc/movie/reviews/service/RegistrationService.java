@@ -29,6 +29,7 @@ public class RegistrationService  {
                         request.getPassword(),
                         request.getEmail(),
                         Collections.emptyList(),
+                        Collections.emptyList(),
                         enUserRole.USER
                 )
         );
