@@ -1,5 +1,5 @@
 INSERT INTO TAG(TAG_KEY) VALUES
-    ('trending'), ('action'), ('adventure'), ('animated'), ('comedy'), ('crime'), ('drama'), ('fantasy'), ('historical'), ('horror'), ('musical'), ('romance'), ('satire'), ('scifi'), ('thriller'), ('war'), ('western');
+    ('trending'), ('action'), ('adventure'), ('animated'), ('comedy'), ('crime'), ('docu'), ('drama'), ('fantasy'), ('history'), ('horror'), ('musical'), ('romance'), ('satire'), ('scifi'), ('thriller'), ('war'), ('western');
 
 INSERT INTO MOVIE(MOVIE_TITLE, LENGTH_MINUTES, RELEASE_DATE, TRAILER_URL, POSTER_IMG_URL, MOVIE_DESC) VALUES
     ('Avengers', 143, '2012-05-04', 'https://youtu.be/eOrNdBpGMv8', 'assets/avengers_poster.jpg', 'Earth''s mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.'),
