@@ -84,4 +84,15 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
         }
     }
+    public void removeMovieFromWatchlist(String username, Long movieId)
+    {
+        User user = userRepository.findByUsername(username).get();
+        Movie movie = movieService.findMovie(movieId);
+
+        if(user.getWatchlist().contains(movie))
+        {
+            user.getWatchlist().remove(movie);
+            userRepository.save(user);
+        }
+    }
 }

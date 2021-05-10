@@ -40,4 +40,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping(path = "/watchlist/del/{movieId}")
+    public ResponseEntity<?> delFromWatchlist(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.removeMovieFromWatchlist(username, movieId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
