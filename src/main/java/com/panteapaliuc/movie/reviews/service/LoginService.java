@@ -1,7 +1,9 @@
 package com.panteapaliuc.movie.reviews.service;
 
+import com.panteapaliuc.movie.reviews.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,8 +12,8 @@ public class LoginService {
 
     private final UserService userService;
 
-    public HttpStatus login()
+    public UserDetails login(String username)
     {
-        return HttpStatus.OK;
+        return userService.loadUserByUsername(username);
     }
 }

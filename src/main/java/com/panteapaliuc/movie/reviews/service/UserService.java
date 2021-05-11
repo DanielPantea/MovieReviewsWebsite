@@ -55,7 +55,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with the username %s not found!", username)));
     }
 
-    public HttpStatus register(User user)
+    public UserDetails register(User user)
     {
         boolean usernameTaken = userRepository.findByUsername(user.getUsername()).isPresent();
 
@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        return HttpStatus.OK;
+        return user;
     }
 
     public List<Movie> findWatchlistByUsername(String username)

@@ -5,6 +5,7 @@ import com.panteapaliuc.movie.reviews.model.User;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -16,7 +17,7 @@ public class RegistrationService  {
     private final UserService userService;
     private EmailValidatorService emailValidatorService;
 
-    public HttpStatus register(RegistrationRequest request)
+    public UserDetails register(RegistrationRequest request)
     {
         boolean isValid = emailValidatorService.test(request.getEmail());
 
