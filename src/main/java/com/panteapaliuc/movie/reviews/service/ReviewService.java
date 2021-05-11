@@ -7,6 +7,7 @@ import com.panteapaliuc.movie.reviews.model.User;
 import com.panteapaliuc.movie.reviews.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class ReviewService {
         reviewRepository.save(
                 new Review(
                         reviewRequest.getReviewText(),
+                        new Date(),
                         movie,
                         user
                 )
