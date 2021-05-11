@@ -4,6 +4,7 @@ import com.panteapaliuc.movie.reviews.model.Movie;
 import com.panteapaliuc.movie.reviews.model.User;
 import com.panteapaliuc.movie.reviews.repository.UserRepository;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,48 +12,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MovieService movieService;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, MovieService movieService) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.movieService = movieService;
-
-        userRepository.save(
-                new User(
-                        "daniel",
-                        this.bCryptPasswordEncoder.encode("12345"),
-                        "daniel.pantea@student.upt.ro",
-                        Collections.emptyList(),
-                        Collections.emptyList(),
-                        enUserRole.ADMIN
-                )
-        );
-
-        userRepository.save(
-                new User(
-                        "filip",
-                        this.bCryptPasswordEncoder.encode("12345"),
-                        "filip.paliuc@student.upt.ro",
-                        Collections.emptyList(),
-                        Collections.emptyList(),
-                        enUserRole.ADMIN
-                )
-        );
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with the username %s not found!", username)));
+        return findUserByUsername(username);
     }
 
     public UserDetails register(User user)
@@ -68,6 +40,12 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public User findUserByUsername(String username)
+    {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with the username %s not found!", username)));
     }
 
     public List<Movie> findWatchlistByUsername(String username)
