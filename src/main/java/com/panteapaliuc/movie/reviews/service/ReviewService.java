@@ -31,7 +31,7 @@ public class ReviewService {
 
     public List<Review> getUserReviewsByMovieId(String username, Long movieId)
     {
-        return reviewRepository.findReviewsByUserUsernameAndMovieMovieId(username, movieId);
+        return reviewRepository.findReviewsByUserUsernameAndMovieMovieIdOrderByPostDateDesc(username, movieId);
     }
 
     public void addReview(String username, ReviewRequest reviewRequest)
