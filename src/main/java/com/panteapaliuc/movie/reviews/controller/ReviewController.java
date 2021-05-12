@@ -29,6 +29,17 @@ public class ReviewController {
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
+    @GetMapping(path = "user/{movieId}")
+    public ResponseEntity<List<Review>> getUserReviewsByMovie(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        List<Review> reviews = reviewService.getUserReviewsByMovieId(username, movieId);
+
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
     @PostMapping(path = "add")
     public ResponseEntity<?> addReview(@RequestBody ReviewRequest reviewRequest)
     {

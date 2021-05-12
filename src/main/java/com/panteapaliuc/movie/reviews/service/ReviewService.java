@@ -29,6 +29,11 @@ public class ReviewService {
         return reviewRepository.findReviewsByMovieMovieId(movieId);
     }
 
+    public List<Review> getUserReviewsByMovieId(String username, Long movieId)
+    {
+        return reviewRepository.findReviewsByUserUsernameAndMovieMovieId(username, movieId);
+    }
+
     public void addReview(String username, ReviewRequest reviewRequest)
     {
         User user = userService.findUserByUsername(username);
