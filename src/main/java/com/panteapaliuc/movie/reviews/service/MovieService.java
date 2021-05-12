@@ -7,6 +7,7 @@ import com.panteapaliuc.movie.reviews.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ public class MovieService {
 
     public Movie addMovie(Movie movie)
     {
+        if(movie.getMovieTags() == null)
+            movie.setMovieTags(Collections.emptySet());
         for (Tag tag:movie.getMovieTags()) {
             if(!tagService.checkTagExists(tag))
                 tagService.addTag(tag);
