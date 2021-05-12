@@ -62,6 +62,13 @@ public class MovieController {
         return new ResponseEntity<>(updMovie, HttpStatus.OK);
     }
 
+    @PutMapping("/enable/{movieId}")
+    public ResponseEntity<?> enableMovie(@PathVariable("movieId") Long movieId)
+    {
+        movieService.enableMovie(movieId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/del/{movieId}")
     public ResponseEntity<?> delMovie(@PathVariable("movieId") Long movieId)
     {

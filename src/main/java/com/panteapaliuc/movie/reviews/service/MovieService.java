@@ -44,6 +44,13 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+    public void enableMovie(Long movieId)
+    {
+        Movie movie = findMovie(movieId);
+        movie.setIsEnabled(true);
+        movieRepository.save(movie);
+    }
+
     public Movie findMovie(Long movieId)
     {
         return movieRepository.findMovieByMovieId(movieId)
