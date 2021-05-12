@@ -38,6 +38,8 @@ public class Movie {
 
     private String movieActors;
 
+    private Boolean isEnabled;
+
     @ManyToMany
     @JoinTable(
             name = "moviesTags",
@@ -55,7 +57,8 @@ public class Movie {
                  String movieDirectors,
                  String movieWriters,
                  String movieActors,
-                 Set<Tag> movieTags) {
+                 Set<Tag> movieTags,
+                 Boolean isEnabled) {
         this.movieTitle = movieTitle;
         this.movieDesc = movieDesc;
         this.posterImgUrl = posterImgUrl;
@@ -66,5 +69,6 @@ public class Movie {
         this.movieWriters = movieWriters;
         this.movieActors = movieActors;
         this.movieTags = movieTags;
+        this.isEnabled = isEnabled;
     }
 }
