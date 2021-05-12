@@ -17,4 +17,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Optional<Movie> findMovieByMovieId(Long movieId);
 
     List<Movie> findMoviesByMovieTagsTagKey(String tagKey);
+
+    List<Movie> findMoviesByIsEnabled(Boolean isEnabled);
 }

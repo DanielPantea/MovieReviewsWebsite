@@ -34,6 +34,13 @@ public class MovieController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/requests")
+    public ResponseEntity<List<Movie>> getMovieRequests()
+    {
+        List<Movie> movies = movieService.findAllMovieRequests();
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/tag/{tagKeys}")
     public ResponseEntity<List<Movie>> getMovieListByTags(@PathVariable("tagKeys") List<String> tagKeys)
     {

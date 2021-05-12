@@ -28,7 +28,12 @@ public class MovieService {
 
     public List<Movie> findAllMovies()
     {
-        return movieRepository.findAll();
+        return movieRepository.findMoviesByIsEnabled(true);
+    }
+
+    public List<Movie> findAllMovieRequests()
+    {
+        return movieRepository.findMoviesByIsEnabled(false);
     }
 
     public Movie updateMovie(Movie movie)
