@@ -41,7 +41,7 @@ public class MovieService {
 
     public Movie updateMovie(Movie movie)
     {
-        return movieRepository.save(movie);
+        return addMovie(movie);
     }
 
     public void enableMovie(Long movieId)

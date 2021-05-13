@@ -30,7 +30,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/movie/**").permitAll()
                 .antMatchers("/api/movie/**").hasAuthority(enUserRole.ADMIN.name())
-                .antMatchers("/api/user/**").hasAuthority(enUserRole.USER.name())
+                .antMatchers("/api/user/**").hasAnyAuthority(enUserRole.USER.name(), enUserRole.ADMIN.name())
                 .antMatchers("/api/register/**", "/h2-console/**").permitAll()
 
                 .anyRequest().authenticated()
