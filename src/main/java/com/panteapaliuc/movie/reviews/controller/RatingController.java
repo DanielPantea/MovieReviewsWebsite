@@ -1,5 +1,6 @@
 package com.panteapaliuc.movie.reviews.controller;
 
+import com.panteapaliuc.movie.reviews.model.Rating;
 import com.panteapaliuc.movie.reviews.model.RatingRequest;
 import com.panteapaliuc.movie.reviews.service.RatingService;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,24 @@ public class RatingController {
 
     private final RatingService ratingService;
 
+    @GetMapping(path = "/get/{movieId}")
+    public ResponseEntity<Rating> getRating(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Rating rating = ratingService.getRating(username, movieId);
+
+        return new ResponseEntity<>(rating, HttpStatus.OK);
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity<?> addRating(@RequestBody RatingRequest ratingRequest)
     {
         // Get the logged in user
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        ratingService.addRate(username, ratingRequest);
+        ratingService.addRating(username, ratingRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

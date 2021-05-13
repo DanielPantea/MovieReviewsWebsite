@@ -16,7 +16,14 @@ public class RatingService {
     private final MovieService movieService;
     private final UserService userService;
 
-    public void addRate(String username, RatingRequest ratingRequest)
+    public Rating getRating(String username, Long movieId){
+
+        User user = userService.findUserByUsername(username);
+
+        return ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+    }
+
+    public void addRating(String username, RatingRequest ratingRequest)
     {
         User user = userService.findUserByUsername(username);
         Movie movie = movieService.findMovie(ratingRequest.getMovieId());
