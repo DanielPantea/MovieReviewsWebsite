@@ -2,6 +2,7 @@ package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
 import com.panteapaliuc.movie.reviews.service.MovieService;
+import com.panteapaliuc.movie.reviews.service.RatingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class MovieController {
 
     private MovieService movieService;
+    private RatingService ratingService;
 
     @GetMapping(path = "/{movieId}")
     public ResponseEntity<Movie> getMovie(@PathVariable("movieId") Long movieId)
@@ -46,6 +48,13 @@ public class MovieController {
     {
         List<Movie> movies = movieService.findMoviesByTags(tagKeys);
         return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/rating/{movieId}")
+    public  ResponseEntity<Float> getMovieRating(@PathVariable("movieId") Long movieId)
+    {
+        float rating = ratingService.getTotalMovieRating(movieId);
+        return  new ResponseEntity<>(rating, HttpStatus.OK);
     }
 
     @PostMapping("/add")

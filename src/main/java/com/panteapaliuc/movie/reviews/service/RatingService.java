@@ -8,6 +8,8 @@ import com.panteapaliuc.movie.reviews.repository.RatingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class RatingService {
@@ -21,6 +23,21 @@ public class RatingService {
         User user = userService.findUserByUsername(username);
 
         return ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+    }
+
+    public Float getTotalMovieRating(Long movieId) {
+        List<Rating> ratings = ratingRepository.findRatingsByMovieMovieId(movieId);
+        Float totalGrade = 0F;
+        if(ratings.stream().count() != 0)
+        {
+            for (Rating rating: ratings) {
+                totalGrade += rating.getGrade();
+            }
+
+            totalGrade /= ratings.stream().count();
+        }
+
+        return totalGrade;
     }
 
     public void addRating(String username, RatingRequest ratingRequest)
