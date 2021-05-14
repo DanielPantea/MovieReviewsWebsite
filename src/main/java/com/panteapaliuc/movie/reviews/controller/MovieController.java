@@ -1,17 +1,16 @@
 package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
+import com.panteapaliuc.movie.reviews.model.Review;
 import com.panteapaliuc.movie.reviews.service.MovieService;
 import com.panteapaliuc.movie.reviews.service.RatingService;
+import com.panteapaliuc.movie.reviews.service.ReviewService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -19,42 +18,51 @@ import java.util.Set;
 @AllArgsConstructor
 public class MovieController {
 
-    private MovieService movieService;
-    private RatingService ratingService;
+    private final MovieService movieService;
+    private final RatingService ratingService;
+    private final ReviewService reviewService;
 
-    @GetMapping(path = "/{movieId}")
+    @GetMapping(path = "/get/{movieId}")
     public ResponseEntity<Movie> getMovie(@PathVariable("movieId") Long movieId)
     {
         Movie movie = movieService.findMovie(movieId);
         return new ResponseEntity<>(movie, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/get/all")
     public ResponseEntity<List<Movie>> getMovieList()
     {
         List<Movie> movies = movieService.findAllMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/requests")
+    @GetMapping(path = "/requests/get")
     public ResponseEntity<List<Movie>> getMovieRequests()
     {
         List<Movie> movies = movieService.findAllMovieRequests();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/tag/{tagKeys}")
+    @GetMapping(path = "tags/get/{tagKeys}")
     public ResponseEntity<List<Movie>> getMovieListByTags(@PathVariable("tagKeys") List<String> tagKeys)
     {
         List<Movie> movies = movieService.findMoviesByTags(tagKeys);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/rating/{movieId}")
+    @GetMapping(path = "/rating/get/{movieId}")
     public  ResponseEntity<Float> getMovieRating(@PathVariable("movieId") Long movieId)
     {
         float rating = ratingService.getTotalMovieRating(movieId);
         return  new ResponseEntity<>(rating, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/review/get/all/{movieId}")
+    public ResponseEntity<List<Review>> getMovieReviews(@PathVariable("movieId") Long movieId)
+    {
+        List<Review> reviews = reviewService.getAllReviewsByMovieId(movieId);
+
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -71,7 +79,7 @@ public class MovieController {
         return new ResponseEntity<>(updMovie, HttpStatus.OK);
     }
 
-    @PutMapping("/enable/{movieId}")
+    @PutMapping("/upd/enable/{movieId}")
     public ResponseEntity<?> enableMovie(@PathVariable("movieId") Long movieId)
     {
         movieService.enableMovie(movieId);
