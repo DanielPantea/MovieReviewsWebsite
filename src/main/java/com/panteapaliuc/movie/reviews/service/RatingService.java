@@ -8,11 +8,12 @@ import com.panteapaliuc.movie.reviews.repository.RatingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class RatingService {
+public class RatingService implements Serializable {
 
     private final RatingRepository ratingRepository;
     private final MovieService movieService;
@@ -21,8 +22,9 @@ public class RatingService {
     public Rating getRating(String username, Long movieId){
 
         User user = userService.findUserByUsername(username);
-
-        return ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+        if(ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).isPresent())
+            return ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+        else return null;
     }
 
     public Float getTotalMovieRating(Long movieId) {

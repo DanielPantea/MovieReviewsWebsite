@@ -1,6 +1,9 @@
 package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
+import com.panteapaliuc.movie.reviews.model.Rating;
+import com.panteapaliuc.movie.reviews.model.RatingRequest;
+import com.panteapaliuc.movie.reviews.service.RatingService;
 import com.panteapaliuc.movie.reviews.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RatingService ratingService;
 
     @GetMapping(path = "/watchlist")
     public ResponseEntity<List<Movie>> getUserWatchlist()
@@ -81,6 +85,37 @@ public class UserController {
 
         userService.removeMovieFromDiary(username, movieId);
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/rating/get/{movieId}")
+    public ResponseEntity<Integer> getRating(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Rating rating = ratingService.getRating(username, movieId);
+
+        return new ResponseEntity<>(rating != null ? rating.getGrade() : 0, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/rating/add")
+    public ResponseEntity<?> addRating(@RequestBody RatingRequest ratingRequest)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ratingService.addRating(username, ratingRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(path = "/rating/del/{movieId}")
+    public ResponseEntity<?> delRating(@PathVariable("movieId") Long movieId)
+    {
+        // Get the logged in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ratingService.deleteRating(username, movieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
