@@ -23,7 +23,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception
+    {
         http
                 .cors()
                 .and().csrf().disable()
@@ -32,22 +33,20 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/movie/**").hasAuthority(enUserRole.ADMIN.name())
                 .antMatchers("/api/user/**").hasAnyAuthority(enUserRole.USER.name(), enUserRole.ADMIN.name())
                 .antMatchers("/api/register/**", "/h2-console/**").permitAll()
-
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().sameOrigin()
                 .and().httpBasic();
-//        http.authorizeRequests()
-//                .and().csrf().ignoringAntMatchers("/h2-console/**")
-//
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider()
+    {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         provider.setUserDetailsService(userService);
