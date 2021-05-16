@@ -41,6 +41,9 @@ public class MovieService {
         Movie movie= movieRepository.findMovieByMovieId(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(String.format("Movie with the id %d not found!", movieId)));
 
+        if(movie.getPosterImg() != null)
+            imageService.delImage(movie.getPosterImg());
+
         movie.setPosterImg(imageService.addImage(
                 new Image(
                         posterImgFile.getOriginalFilename(),

@@ -21,7 +21,6 @@ public class Image {
     private String imageType;
 
     @Lob
-//    @Column(name = "imageByte", length = 1000)
     private byte[] imageByte;
 
     public Image(String imageName, String imageType, byte[] imageByte) {

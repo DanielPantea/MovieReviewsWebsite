@@ -5,12 +5,6 @@ import com.panteapaliuc.movie.reviews.repository.ImageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
-
 @Service
 @AllArgsConstructor
 public class ImageService {
@@ -20,5 +14,10 @@ public class ImageService {
     public Image addImage(Image image)
     {
         return imageRepository.save(image);
+    }
+
+    public void delImage(Image image)
+    {
+        imageRepository.delete(image);
     }
 }
