@@ -22,13 +22,13 @@ public class RatingService implements Serializable {
     public Rating getRating(String username, Long movieId){
 
         User user = userService.findUserByUsername(username);
-        if(ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).isPresent())
-            return ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+        if(ratingRepository.findRatingByUserUserIdAndMovieId(user.getUserId(), movieId).isPresent())
+            return ratingRepository.findRatingByUserUserIdAndMovieId(user.getUserId(), movieId).get();
         else return null;
     }
 
     public Float getTotalMovieRating(Long movieId) {
-        List<Rating> ratings = ratingRepository.findRatingsByMovieMovieId(movieId);
+        List<Rating> ratings = ratingRepository.findRatingsByMovieId(movieId);
         Float totalGrade = 0F;
         if(ratings.stream().count() != 0)
         {
@@ -47,9 +47,9 @@ public class RatingService implements Serializable {
         User user = userService.findUserByUsername(username);
         Movie movie = movieService.findMovie(ratingRequest.getMovieId());
 
-        if(ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movie.getMovieId()).isPresent())
+        if(ratingRepository.findRatingByUserUserIdAndMovieId(user.getUserId(), movie.getMovieId()).isPresent())
         {
-            Rating rating = ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movie.getMovieId()).get();
+            Rating rating = ratingRepository.findRatingByUserUserIdAndMovieId(user.getUserId(), movie.getMovieId()).get();
             rating.setGrade(ratingRequest.getGrade());
             ratingRepository.save(rating);
         }
@@ -58,8 +58,8 @@ public class RatingService implements Serializable {
             ratingRepository.save(
                     new Rating(
                             ratingRequest.getGrade(),
-                            movie,
-                            user
+                            ratingRequest.getMovieId(),
+                            user.getUserInfo()
                     )
             );
         }
@@ -69,7 +69,7 @@ public class RatingService implements Serializable {
     {
         User user = userService.findUserByUsername(username);
 
-        Rating rating = ratingRepository.findRatingByUserUserIdAndMovieMovieId(user.getUserId(), movieId).get();
+        Rating rating = ratingRepository.findRatingByUserUserIdAndMovieId(user.getUserId(), movieId).get();
 
         ratingRepository.delete(rating);
     }

@@ -7,45 +7,17 @@ import com.panteapaliuc.movie.reviews.repository.UserInfoRepository;
 import com.panteapaliuc.movie.reviews.repository.UserRepository;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
-//@AllArgsConstructor
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
-
-    public UserService(UserRepository userRepository, UserInfoRepository userInfoRepository, BCryptPasswordEncoder bCryptPasswordEncoder, MovieService movieService) {
-        this.userRepository = userRepository;
-        this.userInfoRepository = userInfoRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.movieService = movieService;
-
-        User user = new User(
-                "Daniel",
-                bCryptPasswordEncoder.encode("12345"),
-                "daniel@upt",
-                Collections.emptyList(),
-                Collections.emptyList(),
-                enUserRole.ADMIN
-        );
-        user = userRepository.save(user);
-        UserInfo userInfo = userInfoRepository.save( new UserInfo(
-                user.getUserId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getUserRole()
-        ));
-        user.setUserInfo(userInfo);
-        userRepository.save(user);
-    }
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
