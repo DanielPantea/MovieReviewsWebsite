@@ -31,8 +31,6 @@ public class MovieService {
                 tagService.addTag(tag);
         }
 
-        movie.setPosterImg(null);
-
         return movieRepository.save(movie);
     }
 
