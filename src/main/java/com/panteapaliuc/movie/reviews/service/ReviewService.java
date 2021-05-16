@@ -26,25 +26,24 @@ public class ReviewService {
 
     public List<Review> getAllReviewsByMovieId(Long movieId)
     {
-        return reviewRepository.findReviewsByMovieMovieId(movieId);
+        return reviewRepository.findReviewsByMovieId(movieId);
     }
 
     public List<Review> getUserReviewsByMovieId(String username, Long movieId)
     {
-        return reviewRepository.findReviewsByUserUsernameAndMovieMovieIdOrderByPostDateDesc(username, movieId);
+        return reviewRepository.findReviewsByUserUsernameAndMovieIdOrderByPostDateDesc(username, movieId);
     }
 
     public void addReview(String username, ReviewRequest reviewRequest)
     {
         User user = userService.findUserByUsername(username);
-        Movie movie = movieService.findMovie(reviewRequest.getMovieId());
 
         reviewRepository.save(
                 new Review(
                         reviewRequest.getReviewText(),
                         new Date(),
-                        movie,
-                        user
+                        reviewRequest.getMovieId(),
+                        user.getUserInfo()
                 )
         );
     }

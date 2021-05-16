@@ -11,11 +11,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -54,6 +52,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private enUserRole userRole;
+
+    @OneToOne
+    private UserInfo userInfo;
 
 
     public User(@NotBlank(message = "Username is required") String username,

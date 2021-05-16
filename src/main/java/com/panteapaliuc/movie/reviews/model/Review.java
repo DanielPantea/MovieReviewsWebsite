@@ -21,18 +21,16 @@ public class Review {
 
     private Date postDate;
 
-    @OneToOne
-    @JoinColumn(name = "movieId")
-    private Movie movie;
+    private Long movieId;
 
     @OneToOne
     @JoinColumn(name = "userId")
-    private User user;
+    private UserInfo user;
 
-    public Review(String reviewText, Date postDate, Movie movie, User user) {
+    public Review(String reviewText, Date postDate, Long movieId, UserInfo user) {
         this.reviewText = reviewText;
         this.postDate = postDate;
-        this.movie = movie;
+        this.movieId = movieId;
         this.user = user;
     }
 }
