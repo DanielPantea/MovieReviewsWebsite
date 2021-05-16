@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
                         user.getUserId(),
                         user.getUsername(),
                         user.getEmail(),
-                        enUserRole.ADMIN
+                        user.getUserRole()
                 )
         ));
         user = userRepository.save(user);
