@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 @Configuration
 @AllArgsConstructor
@@ -30,6 +29,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/movie/**").permitAll()
+                .antMatchers("/api/movie/poster/add/**").hasAnyAuthority(enUserRole.ADMIN.name(), enUserRole.USER.name())
                 .antMatchers("/api/movie/**").hasAuthority(enUserRole.ADMIN.name())
                 .antMatchers("/api/user/**").hasAnyAuthority(enUserRole.USER.name(), enUserRole.ADMIN.name())
                 .antMatchers("/api/register/**", "/h2-console/**").permitAll()

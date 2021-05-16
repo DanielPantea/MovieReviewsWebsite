@@ -5,9 +5,11 @@ import com.panteapaliuc.movie.reviews.model.Review;
 import com.panteapaliuc.movie.reviews.service.MovieService;
 import com.panteapaliuc.movie.reviews.service.RatingService;
 import com.panteapaliuc.movie.reviews.service.ReviewService;
+import com.panteapaliuc.movie.reviews.utility.enUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,7 +81,15 @@ public class MovieController {
     @PostMapping("/poster/add/{movieId}")
     public ResponseEntity<Movie> addMoviePoster(@PathVariable("movieId") Long movieId, @RequestParam("posterImg") MultipartFile posterImgFile) throws IOException
     {
+        // if not admin and movie it's not a movie request, then don;t allow
+        boolean isAdmin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals(enUserRole.ADMIN.name()));
+
+        if(!isAdmin && movieService.findMovie(movieId).getIsEnabled())
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         Movie movie = movieService.addMoviePoster(posterImgFile, movieId);
+
         return new ResponseEntity<>(movie, HttpStatus.CREATED);
     }
 
