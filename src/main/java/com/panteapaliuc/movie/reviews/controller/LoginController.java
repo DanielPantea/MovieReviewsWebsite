@@ -1,5 +1,7 @@
 package com.panteapaliuc.movie.reviews.controller;
 
+import com.panteapaliuc.movie.reviews.model.User;
+import com.panteapaliuc.movie.reviews.model.UserInfo;
 import com.panteapaliuc.movie.reviews.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -18,12 +20,12 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping
-    public HttpEntity<UserDetails> login()
+    public HttpEntity<UserInfo> login()
     {
         // Get the logged in user
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        UserDetails user = loginService.login(username);
+        UserInfo user = ((User)loginService.login(username)).getUserInfo();
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }

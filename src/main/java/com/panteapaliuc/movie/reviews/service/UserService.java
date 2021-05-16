@@ -2,10 +2,11 @@ package com.panteapaliuc.movie.reviews.service;
 
 import com.panteapaliuc.movie.reviews.model.Movie;
 import com.panteapaliuc.movie.reviews.model.User;
+import com.panteapaliuc.movie.reviews.model.UserInfo;
+import com.panteapaliuc.movie.reviews.repository.UserInfoRepository;
 import com.panteapaliuc.movie.reviews.repository.UserRepository;
 import com.panteapaliuc.movie.reviews.utility.enUserRole;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MovieService movieService;
 
@@ -37,8 +39,17 @@ public class UserService implements UserDetailsService {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        userRepository.save(user);
+        user = userRepository.save(user);
 
+        user.setUserInfo(userInfoRepository.save(
+                new UserInfo(
+                        user.getUserId(),
+                        user.getUsername(),
+                        user.getEmail(),
+                        enUserRole.ADMIN
+                )
+        ));
+        user = userRepository.save(user);
         return user;
     }
 

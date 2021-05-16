@@ -1,6 +1,8 @@
 package com.panteapaliuc.movie.reviews.controller;
 
 import com.panteapaliuc.movie.reviews.model.RegistrationRequest;
+import com.panteapaliuc.movie.reviews.model.User;
+import com.panteapaliuc.movie.reviews.model.UserInfo;
 import com.panteapaliuc.movie.reviews.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -18,9 +20,9 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public HttpEntity<UserDetails> register(@RequestBody RegistrationRequest request)
+    public HttpEntity<UserInfo> register(@RequestBody RegistrationRequest request)
     {
-        UserDetails user = registrationService.register(request);
+        UserInfo user = ((User)registrationService.register(request)).getUserInfo();
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }

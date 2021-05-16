@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    Optional<Rating> findRatingByUserUserIdAndMovieMovieId(Long userId, Long movieId);
+    Optional<Rating> findRatingByUserUserIdAndMovieId(Long userId, Long movieId);
 
-    List<Rating> findRatingsByMovieMovieId(Long movieId);
+    List<Rating> findRatingsByMovieId(Long movieId);
 }

@@ -21,12 +21,7 @@ public class Rating {
     private Integer grade;
 
     @NotNull
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (
-            name = "movieId",
-            referencedColumnName = "movieId"
-    )
-    private Movie movie;
+    private Long movieId;
 
     @NotNull
     @ManyToOne (fetch = FetchType.LAZY)
@@ -34,11 +29,11 @@ public class Rating {
             name = "userId",
             referencedColumnName = "userId"
     )
-    private User user;
+    private UserInfo user;
 
-    public Rating(@NotEmpty Integer grade, @NotNull Movie movie, @NotNull User user) {
+    public Rating(@NotEmpty Integer grade, @NotNull Long movieId, @NotNull UserInfo user) {
         this.grade = grade;
-        this.movie = movie;
+        this.movieId = movieId;
         this.user = user;
     }
 }
