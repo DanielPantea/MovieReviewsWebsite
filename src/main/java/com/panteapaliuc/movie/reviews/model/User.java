@@ -32,6 +32,7 @@ public class User implements UserDetails {
     private String password;
 
     @NotEmpty(message = "Email is required")
+    @Email
     private String email;
 
     @ManyToMany
