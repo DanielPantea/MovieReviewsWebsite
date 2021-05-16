@@ -1,12 +1,15 @@
 package com.panteapaliuc.movie.reviews.service;
 
 import com.panteapaliuc.movie.reviews.exception.MovieNotFoundException;
+import com.panteapaliuc.movie.reviews.model.Image;
 import com.panteapaliuc.movie.reviews.model.Movie;
 import com.panteapaliuc.movie.reviews.model.Tag;
 import com.panteapaliuc.movie.reviews.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +20,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final TagService tagService;
+    private final ImageService imageService;
 
     public Movie addMovie(Movie movie)
     {
@@ -26,7 +30,25 @@ public class MovieService {
             if(!tagService.checkTagExists(tag))
                 tagService.addTag(tag);
         }
-         return movieRepository.save(movie);
+
+        movie.setPosterImg(null);
+
+        return movieRepository.save(movie);
+    }
+
+    public Movie addMoviePoster(MultipartFile posterImgFile, Long movieId) throws IOException
+    {
+        Movie movie= movieRepository.findMovieByMovieId(movieId)
+                .orElseThrow(() -> new MovieNotFoundException(String.format("Movie with the id %d not found!", movieId)));
+
+        movie.setPosterImg(imageService.addImage(
+                new Image(
+                        posterImgFile.getOriginalFilename(),
+                        posterImgFile.getContentType(),
+                        posterImgFile.getBytes()
+                ))
+        );
+        return movieRepository.save(movie);
     }
 
     public List<Movie> findAllMovies()

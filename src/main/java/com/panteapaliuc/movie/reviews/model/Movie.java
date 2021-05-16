@@ -3,9 +3,11 @@ package com.panteapaliuc.movie.reviews.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Movie {
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long movieId;
@@ -24,7 +26,9 @@ public class Movie {
     @Lob
     private String movieDesc;
 
-    private String posterImgUrl;
+    @OneToOne
+    @JoinColumn(name = "posterImgId")
+    private Image posterImg;
 
     private Date releaseDate;
 
@@ -50,7 +54,7 @@ public class Movie {
 
     public Movie(String movieTitle,
                  String movieDesc,
-                 String posterImgUrl,
+                 Image posterImg,
                  Date releaseDate,
                  String trailerUrl,
                  Integer lengthMinutes,
@@ -61,7 +65,7 @@ public class Movie {
                  Boolean isEnabled) {
         this.movieTitle = movieTitle;
         this.movieDesc = movieDesc;
-        this.posterImgUrl = posterImgUrl;
+        this.posterImg = posterImg;
         this.releaseDate = releaseDate;
         this.trailerUrl = trailerUrl;
         this.lengthMinutes = lengthMinutes;

@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -68,8 +70,17 @@ public class MovieController {
     @PostMapping("/add")
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie)
     {
+
         Movie newMovie = movieService.addMovie(movie);
+
         return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/poster/add/{movieId}")
+    public ResponseEntity<Movie> addMoviePoster(@PathVariable("movieId") Long movieId, @RequestParam("posterImg") MultipartFile posterImgFile) throws IOException
+    {
+        Movie movie = movieService.addMoviePoster(posterImgFile, movieId);
+        return new ResponseEntity<>(movie, HttpStatus.CREATED);
     }
 
     @PutMapping("/upd")
